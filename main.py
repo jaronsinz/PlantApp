@@ -4,16 +4,17 @@ import json
 from pathlib import Path
 myPlants = []
 myTasks = []
-jsonFilePath = "output\plants.json"
+jsonFilePath = "data/plants.json"
 jsonFile = Path(jsonFilePath)
+daysBetweenWatering = 7
 
 def readPlantsFromJson():
     if jsonFile.is_file():
         with open(jsonFilePath, 'r') as openfile:
             plantsDict = json.load(openfile)
             if plantsDict:
-                for plantDict in plantsDict:
-                    p1 = Plant(plantDict["name"], plantDict["height"], plantDict["lastTimeWatered"])
+                for plantDict in plantsDict.values():
+                    p1 = Plant(plantDict["name"], plantDict["height"], datetime.strptime(plantDict["lastTimeWatered"], '%Y-%m-%dT%H:%M:%S.%f'))
                     myPlants.append(p1)
     checkIfNewPlant()
 
@@ -49,7 +50,7 @@ def calculateTasks(currentDate) -> Task:
     myTasks.clear()
     for plant in myPlants:
         daysSinceWatering = currentDate - plant.lastTimeWatered
-        if(daysSinceWatering > timedelta(days=7)):
+        if(daysSinceWatering > timedelta(days=daysBetweenWatering)):
             dueTime = currentDate - (daysSinceWatering - timedelta(days=7))
             t1 = Task(dueTime, plant)
             myTasks.append(t1)
