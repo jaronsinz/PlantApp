@@ -1,4 +1,4 @@
-from plants import Plant, Task
+from objects import Plant, Task
 from datetime import datetime, timedelta
 import json
 from pathlib import Path
