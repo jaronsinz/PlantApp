@@ -5,36 +5,24 @@ from pathlib import Path
 myPlants = []
 myTasks = []
 jsonFilePath = "data/plants.json"
-jsonFile = Path(jsonFilePath)
 daysBetweenWatering = 7
 
+def main():
+    if Path(jsonFilePath).is_file():
+        readPlantsFromJson()
+
 def readPlantsFromJson():
-    if jsonFile.is_file():
-        with open(jsonFilePath, 'r') as openfile:
-            plantsDict = json.load(openfile)
-            if plantsDict:
-                for plantDict in plantsDict.values():
-                    p1 = Plant(plantDict["name"], plantDict["height"], datetime.strptime(plantDict["lastTimeWatered"], '%Y-%m-%dT%H:%M:%S.%f'))
-                    myPlants.append(p1)
+    with open(jsonFilePath, 'r') as openfile:
+        plantsDict = json.load(openfile)
+        if plantsDict:
+            for plantDict in plantsDict.values():
+                p1 = Plant(plantDict["name"], plantDict["height"], datetime.strptime(plantDict["lastTimeWatered"], '%Y-%m-%dT%H:%M:%S.%f'))
+                myPlants.append(p1)
     checkIfNewPlant()
 
 def json_serial(obj):
     if isinstance(obj, datetime):
         return obj.isoformat()
-
-def savePlantsToJson():
-    plantsDict = {}
-    for plantNumber, plant in enumerate(myPlants):
-        plantDict = {
-            "name" : plant.name,
-            "height" : plant.height,
-            "lastTimeWatered" : plant.lastTimeWatered
-        }
-        plantsDict.update({f"Plant {plantNumber}":plantDict})
-
-    with open(jsonFilePath, "w") as outfile:
-        json.dump(plantsDict, outfile, default=json_serial)
-    
 
 def addNewPlant():
     name = input("Name of Plant: ")
@@ -88,11 +76,21 @@ def checkIfNewPlant():
     answer = input("Neue Pflanze hinzufügen? y/n\n")
     if(answer == "y"):
         addNewPlant()
+        savePlantsToJson() #unnötige Schreiblast, kann beschleunigt werden
     else:
-        savePlantsToJson()
         checkIfShowTasks()
 
-def main():
-    readPlantsFromJson()
+def savePlantsToJson():
+    plantsDict = {}
+    for plantNumber, plant in enumerate(myPlants):
+        plantDict = {
+            "name" : plant.name,
+            "height" : plant.height,
+            "lastTimeWatered" : plant.lastTimeWatered
+        }
+        plantsDict.update({f"Plant {plantNumber}":plantDict})
+
+    with open(jsonFilePath, "w") as outfile:
+        json.dump(plantsDict, outfile, default=json_serial)
 
 main()
