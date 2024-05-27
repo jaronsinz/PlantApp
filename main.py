@@ -2,6 +2,8 @@ from objects import Plant, Task
 from datetime import datetime, timedelta
 import json
 from pathlib import Path
+import uuid
+
 myPlants = []
 myTasks = []
 jsonFilePath = "data/plants.json"
@@ -10,13 +12,15 @@ daysBetweenWatering = 7
 def main():
     if Path(jsonFilePath).is_file():
         readPlantsFromJson()
+    else:
+        checkIfNewPlant()
 
 def readPlantsFromJson():
     with open(jsonFilePath, 'r') as openfile:
         plantsDict = json.load(openfile)
         if plantsDict:
             for plantDict in plantsDict.values():
-                p1 = Plant(plantDict["name"], plantDict["height"], datetime.strptime(plantDict["lastTimeWatered"], '%Y-%m-%dT%H:%M:%S.%f'))
+                p1 = Plant(uuid.UUID(plantDict["id"]), plantDict["name"], plantDict["height"], datetime.strptime(plantDict["lastTimeWatered"], '%Y-%m-%dT%H:%M:%S.%f'))
                 myPlants.append(p1)
     checkIfNewPlant()
 
@@ -29,9 +33,11 @@ def addNewPlant():
     height = int(input("Height of Plant (cm): "))
     currentDate = datetime.today()
     lastTimeWatered = currentDate - timedelta(days=int(input("How many days ago was your plant watered?: ")))
-
-    p1 = Plant(name, height, lastTimeWatered)
+    id = uuid.uuid1()
+    print(id)
+    p1 = Plant(id, name, height, lastTimeWatered)
     myPlants.append(p1)
+    savePlantsToJson() #unnötige Schreiblast, kann beschleunigt werden
     checkIfNewPlant()
 
 def calculateTasks(currentDate) -> Task:
@@ -76,14 +82,15 @@ def checkIfNewPlant():
     answer = input("Neue Pflanze hinzufügen? y/n\n")
     if(answer == "y"):
         addNewPlant()
-        savePlantsToJson() #unnötige Schreiblast, kann beschleunigt werden
     else:
         checkIfShowTasks()
 
 def savePlantsToJson():
+    print("saving...")
     plantsDict = {}
     for plantNumber, plant in enumerate(myPlants):
         plantDict = {
+            "id" : str(plant.id),
             "name" : plant.name,
             "height" : plant.height,
             "lastTimeWatered" : plant.lastTimeWatered

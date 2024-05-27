@@ -1,9 +1,11 @@
 class Plant:
+    id = None
     name = ""
     height = 0
     lastTimeWatered = None
 
-    def __init__(self, name, height, lastTimeWatered):
+    def __init__(self, id, name, height, lastTimeWatered):
+        self.id = id
         self.name = name
         self.height = height
         self.lastTimeWatered = lastTimeWatered

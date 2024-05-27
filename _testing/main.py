@@ -4,9 +4,9 @@ from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 
-class MyGrid(GridLayout):
+class MainGrid(GridLayout):
     def __init__(self, **kwargs):
-        super(MyGrid, self).__init__(**kwargs)
+        super(MainGrid, self).__init__(**kwargs)
         self.rows = 2
         self.add_widget(Label(text="Oberer Bereich"))
         menu = Menu()
@@ -23,7 +23,7 @@ class Menu(GridLayout):
 
 class PlantApp(App):
     def build(self):
-        return MyGrid()
+        return MainGrid()
     
 if __name__ == "__main__":
     PlantApp().run()

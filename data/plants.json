@@ -1,32 +1,8 @@
 {
     "Plant 0": {
-        "name": "Kaktus",
-        "height": 20,
-        "lastTimeWatered": "2024-05-24T01:29:19.389876"
-    },
-    "Plant 1": {
-        "name": "Einblatt",
-        "height": 40,
-        "lastTimeWatered": "2024-05-24T01:29:19.389876"
-    },
-    "Plant 2": {
-        "name": "Orchidee",
-        "height": 60,
-        "lastTimeWatered": "2024-05-24T01:29:19.389876"
-    },
-    "Plant 3": {
+        "id": "55c89a05-1c52-11ef-af77-c894024136be",
         "name": "Baum",
         "height": 500,
-        "lastTimeWatered": "2024-05-20T01:36:46.812283"
-    },
-    "Plant 4": {
-        "name": "Rose",
-        "height": 30,
-        "lastTimeWatered": "2024-05-24T01:37:12.912255"
-    },
-    "Plant 5": {
-        "name": "Baum",
-        "height": 500,
-        "lastTimeWatered": "2024-03-31T01:41:57.219851"
+        "lastTimeWatered": "2024-04-14T19:55:40.607663"
     }
 }
