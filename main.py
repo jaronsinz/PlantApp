@@ -18,8 +18,10 @@ myTasks = []
 jsonFilePath = "data/plants.json"
 daysBetweenWatering = 7
 
+#reading and writing the data to a json file to save it between sessions
+
 def readPlantsFromJson():
-    print("reading...")
+    print("loading...")
     with open(jsonFilePath, 'r') as openfile:
         plantsDict = json.load(openfile)
         if plantsDict:
@@ -30,41 +32,7 @@ def readPlantsFromJson():
 def json_serial(obj):
     if isinstance(obj, datetime):
         return obj.isoformat()
-
-def calculateTasks(currentDate):
-    myTasks.clear()
-    for plant in myPlants:
-        daysSinceWatering = currentDate - plant.lastTimeWatered
-        if(daysSinceWatering > timedelta(days=daysBetweenWatering)):
-            dueTime = currentDate - (daysSinceWatering - timedelta(days=7))
-            t1 = Task(dueTime, plant)
-            myTasks.append(t1)
-
-def markTasksDone(currentDate):
-    for task in myTasks:
-        answer = input(f"Wurde {task.plant.name} gegossen? y/n\n")
-        if(answer == "y"):
-            myTasks.remove(task)
-            task.plant.lastTimeWatered = currentDate
-    showTasks(currentDate)
-
-def checkIfMarkTasksDone(currentDate):
-    answer = input("Aufgaben als erledigt markieren? y/n\n")
-    if(answer == "y"):
-        markTasksDone(currentDate)
-
-def showTasks(currentDate):
-    for task in myTasks:
-        print(f"{task.plant.name} muss gegossen werden! Fällig: {task.dueTime.date()}")
-    checkIfMarkTasksDone(currentDate)
-
-def checkIfShowTasks():
-    answer = input("Anstehende Aufgaben anzeigen? y/n\n")
-    if(answer == "y"):
-        currentDate = datetime.today()
-        calculateTasks(currentDate)
-        showTasks(currentDate)
-
+    
 def savePlantsToJson():
     print("saving...")
     plantsDict = {}
@@ -79,6 +47,30 @@ def savePlantsToJson():
 
     with open(jsonFilePath, "w") as outfile:
         json.dump(plantsDict, outfile, default=json_serial)
+
+
+#function that provides the current tasks
+
+def calculateTasks(currentDate):
+    myTasks.clear()
+    for plant in myPlants:
+        daysSinceWatering = currentDate - plant.lastTimeWatered
+        if(daysSinceWatering > timedelta(days=daysBetweenWatering)):
+            dueTime = currentDate - (daysSinceWatering - timedelta(days=7))
+            t1 = Task(dueTime, plant)
+            myTasks.append(t1)
+
+#needs to be modified for GUI
+
+def markTasksDone(currentDate):
+    for task in myTasks:
+        answer = input(f"Wurde {task.plant.name} gegossen? y/n\n")
+        if(answer == "y"):
+            myTasks.remove(task)
+            task.plant.lastTimeWatered = currentDate
+    MainGrid.showTasks(currentDate)
+
+#App 
 
 class MainGrid(Widget):
     outputLabel = ObjectProperty(None)
@@ -97,13 +89,19 @@ class MainGrid(Widget):
         self.outputLabel.text = f"{p1.name} was added to ur plants"
         savePlantsToJson() #unnötige Schreiblast, kann beschleunigt werden
 
+    def showTasks(self):
+        calculateTasks(datetime.today())
+        tasks_str = ""
+        for task in myTasks:
+            tasks_str += f"{task.plant.name} muss gegossen werden! Fällig: {task.dueTime.date()}\n"
+        self.outputLabel.text = tasks_str
+
 class PlantApp(App):
     def build(self):
         Window.bind(on_request_close=self.on_request_close)
         return MainGrid()
     
     def on_request_close(self, *args):
-        print("writing...")
         savePlantsToJson()
 
     if Path(jsonFilePath).is_file():
