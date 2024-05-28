@@ -3,27 +3,21 @@ from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
+from kivy.uix.widget import Widget
+from kivy.properties import ObjectProperty
 
-class MainGrid(GridLayout):
-    def __init__(self, **kwargs):
-        super(MainGrid, self).__init__(**kwargs)
-        self.rows = 2
-        self.add_widget(Label(text="Oberer Bereich"))
-        menu = Menu()
-        self.add_widget(menu)
+class MainGrid(Widget):
+    output = ObjectProperty(None)
 
-class Menu(GridLayout):
-    def __init__(self, **kwargs):
-        super(Menu, self).__init__(**kwargs)
-        self.cols = 4
-        self.add_widget(Label(text="Pflanzen"))
-        self.add_widget(Label(text="Aufgaben"))
-        self.add_widget(Label(text="Pflanze Hinzufügen"))
+    def say_hello(self):
+        self.output.text = "Hello World"
+    
 
 
 class PlantApp(App):
     def build(self):
         return MainGrid()
+    
     
 if __name__ == "__main__":
     PlantApp().run()

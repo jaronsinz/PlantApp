@@ -33,14 +33,13 @@ def addNewPlant():
     height = int(input("Height of Plant (cm): "))
     currentDate = datetime.today()
     lastTimeWatered = currentDate - timedelta(days=int(input("How many days ago was your plant watered?: ")))
-    id = uuid.uuid1()
-    print(id)
-    p1 = Plant(id, name, height, lastTimeWatered)
+
+    p1 = Plant(name, height, lastTimeWatered)
     myPlants.append(p1)
     savePlantsToJson() #unnötige Schreiblast, kann beschleunigt werden
     checkIfNewPlant()
 
-def calculateTasks(currentDate) -> Task:
+def calculateTasks(currentDate):
     myTasks.clear()
     for plant in myPlants:
         daysSinceWatering = currentDate - plant.lastTimeWatered

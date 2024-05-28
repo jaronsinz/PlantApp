@@ -1,13 +1,28 @@
 #:kivy 2.3.0
 
-<HomeScreen>:    
-    BoxLayout:
+<MainGrid>:   
 
-        Button:
-            text: 'Add Plant'
-            size_hint: 0.5, 0.5
-            on_press: app.say_hello()
-        Button:
-            text: 'Show Tasks'
-            size_hint: 0.5, 0.5
-            on_press: app.say_hello()
+    output: output
+
+    GridLayout:
+        cols: 1
+        size: root.width, root.height
+
+        GridLayout:
+            cols: 1
+
+            TextInput:
+                multiline: False
+
+            Label:
+                id: output
+                text: "Test"
+
+        GridLayout:
+            cols: 2
+            Button:
+                text: 'Add Plant'
+                on_press: root.say_hello()
+            Button:
+                text: 'Show Tasks'
+                on_press: root.say_hello()
