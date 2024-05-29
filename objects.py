@@ -6,8 +6,8 @@ class Plant:
     height = 0
     lastTimeWatered = None
 
-    def __init__(self, name, height, lastTimeWatered):
-        self.id = uuid.uuid1()
+    def __init__(self, id, name, height, lastTimeWatered):
+        self.id = id
         self.name = name
         self.height = height
         self.lastTimeWatered = lastTimeWatered
