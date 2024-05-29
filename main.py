@@ -77,6 +77,7 @@ class MainGrid(Widget):
     nameTextInput = ObjectProperty(None)
     heightTextInput = ObjectProperty(None)
     lTWTextInput = ObjectProperty(None)
+    plantInput = ObjectProperty(None)
 
     def addNewPlant(self):
         name = self.nameTextInput.text
@@ -95,6 +96,13 @@ class MainGrid(Widget):
         for task in myTasks:
             tasks_str += f"{task.plant.name} muss gegossen werden! Fällig: {task.dueTime.date()}\n"
         self.outputLabel.text = tasks_str
+
+    def switchView(self):
+        if(self.plantInput.visible):
+            self.plantInput.visible = False
+        else:
+            self.plantInput.visible = True
+
 
 class PlantApp(App):
     def build(self):

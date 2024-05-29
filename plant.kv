@@ -6,13 +6,19 @@
     nameTextInput: name
     heightTextInput: height
     lTWTextInput: lTW
+    plantInput: plantInput
 
     GridLayout:
         cols: 1
         size: root.width, root.height
 
         GridLayout:
+            id: plantInput
             cols: 2
+            visible: True
+            size_hint_y: 1 if self.visible else 0
+            opacity: 1 if self.visible else 0
+            disabled: not self.visible
 
             Label:
                 text: "Name: "
@@ -38,6 +44,10 @@
         Label:
             id: output
             text: "Hello"
+            visible: not plantInput.visible
+            size_hint_y: 1 if self.visible else 0
+            opacity: 1 if self.visible else 0
+            disabled: not self.visible
 
         GridLayout:
             cols: 2
@@ -47,3 +57,6 @@
             Button:
                 text: 'Show Tasks'
                 on_press: root.showTasks()
+            Button:
+                text: 'Switch View'
+                on_press: root.switchView()
