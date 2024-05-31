@@ -12,11 +12,14 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.widget import Widget
 from kivy.properties import ObjectProperty
 from kivy.core.window import Window
+from kivy.lang import Builder
+from kivy.uix.screenmanager import ScreenManager, Screen
 
 myPlants = []
 myTasks = []
 jsonFilePath = "data/plants.json"
 daysBetweenWatering = 7
+kv = Builder.load_file("plant.kv")
 
 #reading and writing the data to a json file to save it between sessions
 
@@ -68,12 +71,11 @@ def markTasksDone(currentDate):
         if(answer == "y"):
             myTasks.remove(task)
             task.plant.lastTimeWatered = currentDate
-    MainGrid.showTasks(currentDate)
+    ShowTasks.showTasks(currentDate)
 
 #App 
 
-class MainGrid(Widget):
-    outputLabel = ObjectProperty(None)
+class AddPlant(Screen):
     nameTextInput = ObjectProperty(None)
     heightTextInput = ObjectProperty(None)
     lTWTextInput = ObjectProperty(None)
@@ -90,24 +92,26 @@ class MainGrid(Widget):
         self.outputLabel.text = f"{p1.name} was added to ur plants"
         savePlantsToJson() #unnötige Schreiblast, kann beschleunigt werden
 
+class ShowTasks(Screen):
+    outputLabel = ObjectProperty(None)
+
+    def on_enter(self):
+        self.showTasks()
+
     def showTasks(self):
         calculateTasks(datetime.today())
         tasks_str = ""
         for task in myTasks:
             tasks_str += f"{task.plant.name} muss gegossen werden! Fällig: {task.dueTime.date()}\n"
         self.outputLabel.text = tasks_str
-
-    def switchView(self):
-        if(self.plantInput.visible):
-            self.plantInput.visible = False
-        else:
-            self.plantInput.visible = True
-
+    
+class WindowManager(ScreenManager):
+    pass
 
 class PlantApp(App):
     def build(self):
         Window.bind(on_request_close=self.on_request_close)
-        return MainGrid()
+        return kv
     
     def on_request_close(self, *args):
         savePlantsToJson()

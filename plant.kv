@@ -1,62 +1,69 @@
 #:kivy 2.3.0
+WindowManager:
+    AddPlant:
+    ShowTasks:
 
-<MainGrid>:   
-
-    outputLabel: output
-    nameTextInput: name
-    heightTextInput: height
-    lTWTextInput: lTW
+<AddPlant>:
+    name: "Plants"
     plantInput: plantInput
-
+    nameTextInput: name
+    lTWTextInput: lTW
+    heightTextInput: height
+    
     GridLayout:
+        id: addPlantMainGrid
         cols: 1
-        size: root.width, root.height
 
         GridLayout:
             id: plantInput
             cols: 2
-            visible: True
-            size_hint_y: 1 if self.visible else 0
-            opacity: 1 if self.visible else 0
-            disabled: not self.visible
 
             Label:
                 text: "Name: "
-
             TextInput:
                 id: name
                 multiline: False
             
             Label:
                 text: "Height: "
-
             TextInput:
                 id: height
                 multiline: False
 
             Label:
                 text: "last time watered (days ago): "
-
             TextInput:
                 id: lTW
                 multiline: False
+    
+        GridLayout:
+            id: buttons
+            cols: 2
+
+            Button:
+                text: "Add Plant"
+             
+            Button:
+                text: "Show Tasks"
+                on_release: 
+                    app.root.current = "Tasks"
+                    root.manager.transition.direction = "right"
+                    
+
+<ShowTasks>:
+    name: "Tasks"
+    outputLabel: output
+
+    GridLayout:
+        id: showTasksMainGrid
+        cols: 1
 
         Label:
             id: output
-            text: "Hello"
-            visible: not plantInput.visible
-            size_hint_y: 1 if self.visible else 0
-            opacity: 1 if self.visible else 0
-            disabled: not self.visible
-
-        GridLayout:
-            cols: 2
-            Button:
-                text: 'Add Plant'
-                on_press: root.addNewPlant()
-            Button:
-                text: 'Show Tasks'
-                on_press: root.showTasks()
-            Button:
-                text: 'Switch View'
-                on_press: root.switchView()
+            text: "Hello World"
+  
+        Button:
+            text: "SwitchView"
+            on_release: 
+                app.root.current = "Plants"
+                root.manager.transition.direction = "left"
