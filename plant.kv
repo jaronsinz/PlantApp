@@ -1,10 +1,11 @@
 #:kivy 2.3.0
+
 WindowManager:
     AddPlant:
     ShowTasks:
 
 <AddPlant>:
-    name: "Plants"
+    name: "AddPlants"
     plantInput: plantInput
     nameTextInput: name
     lTWTextInput: lTW
@@ -60,10 +61,9 @@ WindowManager:
 
         Label:
             id: output
-            text: "Hello World"
   
         Button:
             text: "SwitchView"
             on_release: 
-                app.root.current = "Plants"
+                app.root.current = "AddPlants"
                 root.manager.transition.direction = "left"

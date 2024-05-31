@@ -19,7 +19,6 @@ myPlants = []
 myTasks = []
 jsonFilePath = "data/plants.json"
 daysBetweenWatering = 7
-kv = Builder.load_file("plant.kv")
 
 #reading and writing the data to a json file to save it between sessions
 
@@ -103,6 +102,7 @@ class ShowTasks(Screen):
         tasks_str = ""
         for task in myTasks:
             tasks_str += f"{task.plant.name} muss gegossen werden! Fällig: {task.dueTime.date()}\n"
+        self.outputLabel.text = ""
         self.outputLabel.text = tasks_str
     
 class WindowManager(ScreenManager):
@@ -110,6 +110,7 @@ class WindowManager(ScreenManager):
 
 class PlantApp(App):
     def build(self):
+        kv = Builder.load_file("plant.kv")
         Window.bind(on_request_close=self.on_request_close)
         return kv
     
