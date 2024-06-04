@@ -118,15 +118,20 @@ class ShowPlants(Screen):
         self.plantsGrid.clear_widgets()
         
         for plant in myPlants:
-            plantRow = GridLayout(cols = 2, rows = 1, size_hint = (0.8, None))
-            #removeButton = Button(size_hint = (0.3, 1))
-            #plantLabel = Label(halign="center", text = plant.name, size_hint = (0.7, 1))
+            plantRow = GridLayout(cols = 2, rows = 1)
+        #plantRow.add_widget(Button(text="Hello World", size_hint = (1,1)))
+        #plantRow.add_widget(Button(text="Hello World", size_hint = (1,1)))
+            removeButton = Button(text = "remove", size_hint = (0.3, 1))
+            plantLabel = Button(disabled=True, halign="center", text=plant.name, size_hint=(0.7, 1), background_color = "green")
 
-            #plantRow.add_widget(plantLabel)
-            #plantRow.add_widget(removeButton)
+            plantRow.add_widget(plantLabel)
+            plantRow.add_widget(removeButton)
+            
             
             self.plantsGrid.add_widget(plantRow)
-            
+            plantRow.size_hint = (1, 1)
+            #plantRow.pos_hint = {"left": 1}
+            print(plantRow.size)
             
             
 
@@ -139,7 +144,7 @@ class WindowManager(ScreenManager):
 
 class PlantApp(App):
     def build(self):
-        kv = Builder.load_file("plant.kv")
+        kv = Builder.load_file("t_plant.kv")
         Window.bind(on_request_close=self.on_request_close)
         return kv
     
