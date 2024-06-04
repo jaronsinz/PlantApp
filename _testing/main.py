@@ -8,18 +8,20 @@ import kivy
 from kivy.app import App
 from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.widget import Widget
+from kivy.uix.button import Button
 from kivy.properties import ObjectProperty
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.scrollview import ScrollView
 
 myPlants = []
 myTasks = []
 jsonFilePath = "data/plants.json"
 daysBetweenWatering = 7
-kv = Builder.load_file("plant.kv")
 
 #reading and writing the data to a json file to save it between sessions
 
@@ -103,13 +105,41 @@ class ShowTasks(Screen):
         tasks_str = ""
         for task in myTasks:
             tasks_str += f"{task.plant.name} muss gegossen werden! Fällig: {task.dueTime.date()}\n"
+        self.outputLabel.text = ""
         self.outputLabel.text = tasks_str
+
+class ShowPlants(Screen):
+    plantsGrid = ObjectProperty(None)
+    
+    def on_enter(self):
+        self.showPlants()
+
+    def showPlants(self):
+        self.plantsGrid.clear_widgets()
+        
+        for plant in myPlants:
+            plantRow = GridLayout(cols = 2, rows = 1, size_hint = (0.8, None))
+            #removeButton = Button(size_hint = (0.3, 1))
+            #plantLabel = Label(halign="center", text = plant.name, size_hint = (0.7, 1))
+
+            #plantRow.add_widget(plantLabel)
+            #plantRow.add_widget(removeButton)
+            
+            self.plantsGrid.add_widget(plantRow)
+            
+            
+            
+
+        
+        
+
     
 class WindowManager(ScreenManager):
     pass
 
 class PlantApp(App):
     def build(self):
+        kv = Builder.load_file("plant.kv")
         Window.bind(on_request_close=self.on_request_close)
         return kv
     

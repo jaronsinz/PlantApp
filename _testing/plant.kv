@@ -1,10 +1,12 @@
 #:kivy 2.3.0
+
 WindowManager:
     AddPlant:
     ShowTasks:
+    ShowPlants:
 
 <AddPlant>:
-    name: "Plants"
+    name: "AddPlants"
     plantInput: plantInput
     nameTextInput: name
     lTWTextInput: lTW
@@ -41,7 +43,10 @@ WindowManager:
             cols: 2
 
             Button:
-                text: "Add Plant"
+                text: "Show Plants"
+                on_release:
+                    app.root.current = "Plants"
+                    root.manager.transition.direction = "left"
              
             Button:
                 text: "Show Tasks"
@@ -49,6 +54,43 @@ WindowManager:
                     app.root.current = "Tasks"
                     root.manager.transition.direction = "right"
                     
+<ShowPLants>:
+    name: "Plants"
+    plantsGrid: plantsGrid
+
+    GridLayout:
+        id: showPlantsMainGrid
+        cols: 1
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            FloatLayout:
+                id: plantsGrid
+                cols: 1
+                rows: 5
+                spacing: 10
+                canvas.before:
+                    Color:
+                        rgba: 1,250,1,1 
+            
+        GridLayout:
+            id: buttons
+            cols: 2
+
+            Button:
+                text: "Add Plants"
+                on_release:
+                    app.root.current = "AddPlants"
+                    root.manager.transition.direction = "right"
+            
+            Button:
+                text: "Show Tasks"
+                on_release:
+                    app.root.current = "Tasks"
+                    root.manager.transition.direction = "left"
+
 
 <ShowTasks>:
     name: "Tasks"
@@ -60,10 +102,19 @@ WindowManager:
 
         Label:
             id: output
-            text: "Hello World"
-  
-        Button:
-            text: "SwitchView"
-            on_release: 
-                app.root.current = "Plants"
-                root.manager.transition.direction = "left"
+
+        GridLayout:
+            id: buttons
+            cols: 2
+
+            Button:
+                text: "AddPlants"
+                on_release: 
+                    app.root.current = "AddPlants"
+                    root.manager.transition.direction = "left"
+            
+            Button:
+                text: "ShowPlants"
+                on_release: 
+                    app.root.current = "Plants"
+                    root.manager.transition.direction = "right"
