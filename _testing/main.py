@@ -119,24 +119,14 @@ class ShowPlants(Screen):
         
         for plant in myPlants:
             plantRow = GridLayout(cols = 2, rows = 1)
-        #plantRow.add_widget(Button(text="Hello World", size_hint = (1,1)))
-        #plantRow.add_widget(Button(text="Hello World", size_hint = (1,1)))
+
             removeButton = Button(text = "remove", size_hint = (0.3, 1))
             plantLabel = Button(disabled=True, halign="center", text=plant.name, size_hint=(0.7, 1), background_color = "green")
 
             plantRow.add_widget(plantLabel)
             plantRow.add_widget(removeButton)
             
-            
-            self.plantsGrid.add_widget(plantRow)
-            plantRow.size_hint = (1, 1)
-            #plantRow.pos_hint = {"left": 1}
-            print(plantRow.size)
-            
-            
-
-        
-        
+            self.plantsGrid.add_widget(plantRow)             
 
     
 class WindowManager(ScreenManager):
