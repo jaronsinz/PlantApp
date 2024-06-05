@@ -12,11 +12,13 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
+from kivy.uix.image import Image
 from kivy.properties import ObjectProperty
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.button import ButtonBehavior
 
 myPlants = []
 myTasks = []
@@ -76,6 +78,11 @@ def markTasksDone(currentDate):
     ShowTasks.showTasks(currentDate)
 
 #App 
+class MenuButtons(GridLayout):
+    pass
+
+class RoundCorneredButton(ButtonBehavior, Label):
+   pass
 
 class AddPlant(Screen):
     nameTextInput = ObjectProperty(None)
@@ -96,6 +103,7 @@ class AddPlant(Screen):
 
 class ShowTasks(Screen):
     outputLabel = ObjectProperty(None)
+    buttons = ObjectProperty(None)
 
     def on_enter(self):
         self.showTasks()
@@ -120,14 +128,14 @@ class ShowPlants(Screen):
         for plant in myPlants:
             plantRow = GridLayout(cols = 2, rows = 1)
 
-            removeButton = Button(text = "remove", size_hint = (0.3, 1))
+            #plantImage = Image(source = )
             plantLabel = Button(disabled=True, halign="center", text=plant.name, size_hint=(0.7, 1), background_color = "green")
+            removeButton = Button(text = "remove", size_hint = (0.3, 1))
 
             plantRow.add_widget(plantLabel)
             plantRow.add_widget(removeButton)
             
-            self.plantsGrid.add_widget(plantRow)             
-
+            self.plantsGrid.add_widget(plantRow)
     
 class WindowManager(ScreenManager):
     pass

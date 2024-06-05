@@ -12,6 +12,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
+from kivy.uix.image import Image
 from kivy.properties import ObjectProperty
 from kivy.core.window import Window
 from kivy.lang import Builder
@@ -118,20 +119,16 @@ class ShowPlants(Screen):
         self.plantsGrid.clear_widgets()
         
         for plant in myPlants:
-            plantRow = GridLayout(cols = 2, rows = 1, size_hint = (0.8, None))
-            removeButton = Button(size_hint = (0.3, 1))
-            plantLabel = Label(halign="center", text = plant.name, size_hint = (0.7, 1))
+            plantRow = GridLayout(cols = 2, rows = 1)
+
+            #plantImage = Image(source = )
+            plantLabel = Button(disabled=True, halign="center", text=plant.name, size_hint=(0.7, 1), background_color = "green")
+            removeButton = Button(text = "remove", size_hint = (0.3, 1))
 
             plantRow.add_widget(plantLabel)
             plantRow.add_widget(removeButton)
             
-            self.plantsGrid.add_widget(plantRow)
-            
-            
-            
-
-        
-        
+            self.plantsGrid.add_widget(plantRow)             
 
     
 class WindowManager(ScreenManager):
