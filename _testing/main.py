@@ -17,8 +17,6 @@ from kivy.properties import ObjectProperty
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.button import ButtonBehavior
 
 myPlants = []
 myTasks = []
@@ -80,9 +78,7 @@ def markTasksDone(currentDate):
 #App 
 class MenuButtons(GridLayout):
     pass
-
-class RoundCorneredButton(ButtonBehavior, Label):
-   pass
+    
 
 class AddPlant(Screen):
     nameTextInput = ObjectProperty(None)
@@ -113,7 +109,6 @@ class ShowTasks(Screen):
         tasks_str = ""
         for task in myTasks:
             tasks_str += f"{task.plant.name} muss gegossen werden! Fällig: {task.dueTime.date()}\n"
-        self.outputLabel.text = ""
         self.outputLabel.text = tasks_str
 
 class ShowPlants(Screen):

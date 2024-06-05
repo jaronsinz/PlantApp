@@ -17,7 +17,6 @@ from kivy.properties import ObjectProperty
 from kivy.core.window import Window
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.scrollview import ScrollView
 
 myPlants = []
 myTasks = []
@@ -77,6 +76,9 @@ def markTasksDone(currentDate):
     ShowTasks.showTasks(currentDate)
 
 #App 
+class MenuButtons(GridLayout):
+    pass
+    
 
 class AddPlant(Screen):
     nameTextInput = ObjectProperty(None)
@@ -97,6 +99,7 @@ class AddPlant(Screen):
 
 class ShowTasks(Screen):
     outputLabel = ObjectProperty(None)
+    buttons = ObjectProperty(None)
 
     def on_enter(self):
         self.showTasks()
@@ -106,7 +109,6 @@ class ShowTasks(Screen):
         tasks_str = ""
         for task in myTasks:
             tasks_str += f"{task.plant.name} muss gegossen werden! Fällig: {task.dueTime.date()}\n"
-        self.outputLabel.text = ""
         self.outputLabel.text = tasks_str
 
 class ShowPlants(Screen):
@@ -128,15 +130,14 @@ class ShowPlants(Screen):
             plantRow.add_widget(plantLabel)
             plantRow.add_widget(removeButton)
             
-            self.plantsGrid.add_widget(plantRow)             
-
+            self.plantsGrid.add_widget(plantRow)
     
 class WindowManager(ScreenManager):
     pass
 
 class PlantApp(App):
     def build(self):
-        kv = Builder.load_file("plant.kv")
+        kv = Builder.load_file("plantKV.kv")
         Window.bind(on_request_close=self.on_request_close)
         return kv
     
