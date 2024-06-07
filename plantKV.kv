@@ -79,6 +79,14 @@ WindowManager:
 <MenuButtons>:
     size_hint: (1, 0.2)
     cols: 3
+    spacing: 20
+    padding: 20
+    canvas.before:
+        Color:
+            rgb: kivy.utils.get_color_from_hex('#709170')
+        Rectangle:
+            size: self.size
+            pos: self.pos
     MenuButton:
         on_release:
             app.root.transition.direction = "right"
@@ -108,17 +116,15 @@ WindowManager:
             text: "Add Plant"
 
 <MenuButton>:
-    background_color: 1, .3, .4, .85
-    padding: 20
+    background_color: kivy.utils.get_color_from_hex("#E69F65")
 
 <MenuBtnImage>:
     center_x: self.parent.center_x
     center_y: self.parent.center_y*1.2
     size: (self.texture_size[0]*0.1, self.texture_size[1]*0.1)
-    allow_stretch: True
-    fit_mode: "fill"
 <MenuBtnLabel>:
     text_size: (self.parent.width, None)
+    color: (0,0,0,1)
     halign: "center"
     center_x: self.parent.center_x
     center_y: self.parent.center_y*0.6
