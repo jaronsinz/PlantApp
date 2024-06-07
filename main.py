@@ -78,6 +78,15 @@ def markTasksDone(currentDate):
 #App 
 class MenuButtons(GridLayout):
     pass
+
+class MenuButton(Button):
+    pass
+
+class MenuBtnLabel(Label):
+    pass
+
+class MenuBtnImage(Image):
+    pass
     
 
 class AddPlant(Screen):
