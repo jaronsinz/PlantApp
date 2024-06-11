@@ -42,24 +42,41 @@ WindowManager:
         MenuButtons:
             id: mButtonsAddPlant
                     
-<ShowPLants>:
+<ShowPlants>:
     name: "Plants"
     plantsGrid: plantsGrid
 
     GridLayout:
         id: showPlantsMainGrid
         cols: 1
-
-        GridLayout:
-            id: plantsGrid
-            cols: 1
-            rows: 3
-            size_hint: (1, 1)
-            padding: [showPlantsMainGrid.width*0.1, 0]
+        ScrollView:
+            do_scroll_x: False
+            size_hint: (1,1)
+            GridLayout:
+                id: plantsGrid
+                cols: 1
+                size_hint: (1, 1)
+                padding: [showPlantsMainGrid.width*0.1, 0]
 
         MenuButtons:
             id: mButtonsPlants
 
+<SPRow>:
+    cols: 2
+
+<SPLabel>:
+    disabled: True
+    halign: "center"
+    size_hint: (0.7, 1)
+    background_color: kivy.utils.get_color_from_hex("#E69F65")
+
+<SPRmvButton>:
+    size_hint: (0.3, 1)
+    Image:
+        source: "data/img/icons/cross.png"
+        center_x: self.parent.center_x
+        center_y: self.parent.center_y
+        size: (self.texture_size[0]*0.1, self.texture_size[1]*0.1)
 
 <ShowTasks>:
     name: "Tasks"
@@ -79,8 +96,8 @@ WindowManager:
 <MenuButtons>:
     size_hint: (1, 0.2)
     cols: 3
-    spacing: 20
-    padding: 20
+    spacing: self.width*0.01
+    padding: self.width*0.01
     canvas.before:
         Color:
             rgb: kivy.utils.get_color_from_hex('#709170')

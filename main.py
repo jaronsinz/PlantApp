@@ -128,18 +128,27 @@ class ShowPlants(Screen):
 
     def showPlants(self):
         self.plantsGrid.clear_widgets()
-        
+        self.plantsGrid.rows = len(myPlants)
         for plant in myPlants:
-            plantRow = GridLayout(cols = 2, rows = 1)
+            plantRow = SPRow()
 
-            #plantImage = Image(source = )
-            plantLabel = Button(disabled=True, halign="center", text=plant.name, size_hint=(0.7, 1), background_color = "green")
-            removeButton = Button(text = "remove", size_hint = (0.3, 1))
+            plantLabel = SPLabel(text=plant.name)
+            removeButton = SPRmvButton()
 
             plantRow.add_widget(plantLabel)
             plantRow.add_widget(removeButton)
             
             self.plantsGrid.add_widget(plantRow)
+            
+
+class SPRow(GridLayout):
+    pass
+
+class SPLabel(Button):
+    pass
+
+class SPRmvButton(Button):
+    pass
     
 class WindowManager(ScreenManager):
     pass
