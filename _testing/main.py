@@ -78,6 +78,15 @@ def markTasksDone(currentDate):
 #App 
 class MenuButtons(GridLayout):
     pass
+
+class MenuButton(Button):
+    pass
+
+class MenuBtnLabel(Label):
+    pass
+
+class MenuBtnImage(Image):
+    pass
     
 
 class AddPlant(Screen):
@@ -117,27 +126,43 @@ class ShowPlants(Screen):
     def on_enter(self):
         self.showPlants()
 
+    def deletePlant(plantRow, *kwargs):
+        print("deleting")
+        
+        pass
+
     def showPlants(self):
         self.plantsGrid.clear_widgets()
-        
-        for plant in myPlants:
-            plantRow = GridLayout(cols = 2, rows = 1)
+        self.plantsGrid.rows = len(myPlants)
 
-            #plantImage = Image(source = )
-            plantLabel = Button(disabled=True, halign="center", text=plant.name, size_hint=(0.7, 1), background_color = "green")
-            removeButton = Button(text = "remove", size_hint = (0.3, 1))
+        for plant in myPlants:
+            plantRow = SPRow()
+            
+            plantLabel = SPLabel(text=plant.name)
+            removeButton = SPRmvButton()
 
             plantRow.add_widget(plantLabel)
             plantRow.add_widget(removeButton)
+            removeButton.on_release = plantRow.clear_widgets
             
             self.plantsGrid.add_widget(plantRow)
+            
+
+class SPRow(GridLayout):
+    pass
+
+class SPLabel(Button):
+    pass
+
+class SPRmvButton(Button):
+    pass
     
 class WindowManager(ScreenManager):
     pass
 
 class PlantApp(App):
     def build(self):
-        kv = Builder.load_file("t_plant.kv")
+        kv = Builder.load_file("plantKV.kv")
         Window.bind(on_request_close=self.on_request_close)
         return kv
     
