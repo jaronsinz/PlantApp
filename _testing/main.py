@@ -126,11 +126,6 @@ class ShowPlants(Screen):
     def on_enter(self):
         self.showPlants()
 
-    def deletePlant(plantRow, *kwargs):
-        print("deleting")
-        
-        pass
-
     def showPlants(self):
         self.plantsGrid.clear_widgets()
         self.plantsGrid.rows = len(myPlants)
@@ -139,12 +134,12 @@ class ShowPlants(Screen):
             plantRow = SPRow()
             
             plantLabel = SPLabel(text=plant.name)
-            removeButton = SPRmvButton()
+            removeButton = SPRmvButton(rmvButtonID=plant.id, plantRow=plantRow)
+            removeButton.bind(on_release = removeButton.deletePlant)
 
             plantRow.add_widget(plantLabel)
             plantRow.add_widget(removeButton)
-            removeButton.on_release = plantRow.clear_widgets
-            
+                        
             self.plantsGrid.add_widget(plantRow)
             
 
@@ -155,7 +150,15 @@ class SPLabel(Button):
     pass
 
 class SPRmvButton(Button):
-    pass
+    rmvButtonID = ObjectProperty()
+    plantRow = ObjectProperty()
+
+    def deletePlant(self, *args):
+        for plant in myPlants:
+            if (plant.id == self.rmvButtonID):
+                myPlants.remove(plant)
+        
+        self.parent.parent.remove_widget(self.plantRow)
     
 class WindowManager(ScreenManager):
     pass
@@ -167,7 +170,8 @@ class PlantApp(App):
         return kv
     
     def on_request_close(self, *args):
-        savePlantsToJson()
+        #savePlantsToJson()
+        pass
 
     if Path(jsonFilePath).is_file():
         readPlantsFromJson()

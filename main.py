@@ -129,11 +129,13 @@ class ShowPlants(Screen):
     def showPlants(self):
         self.plantsGrid.clear_widgets()
         self.plantsGrid.rows = len(myPlants)
+
         for plant in myPlants:
             plantRow = SPRow()
 
             plantLabel = SPLabel(text=plant.name)
-            removeButton = SPRmvButton()
+            removeButton = SPRmvButton(rmvButtonID=plant.id, plantRow=plantRow)
+            removeButton.bind(on_release = removeButton.deletePlant)
 
             plantRow.add_widget(plantLabel)
             plantRow.add_widget(removeButton)
@@ -148,7 +150,15 @@ class SPLabel(Button):
     pass
 
 class SPRmvButton(Button):
-    pass
+    rmvButtonID = ObjectProperty()
+    plantRow = ObjectProperty()
+
+    def deletePlant(self, *args):
+        for plant in myPlants:
+            if (plant.id == self.rmvButtonID):
+                myPlants.remove(plant)
+        
+        self.parent.parent.remove_widget(self.plantRow)
     
 class WindowManager(ScreenManager):
     pass
