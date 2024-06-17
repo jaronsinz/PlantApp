@@ -107,7 +107,6 @@ class AddPlant(Screen):
         savePlantsToJson() #unnötige Schreiblast, kann beschleunigt werden
 
 class ShowTasks(Screen):
-    outputLabel = ObjectProperty(None)
     buttons = ObjectProperty(None)
 
     def on_enter(self):
@@ -118,7 +117,7 @@ class ShowTasks(Screen):
         tasks_str = ""
         for task in myTasks:
             tasks_str += f"{task.plant.name} muss gegossen werden! Fällig: {task.dueTime.date()}\n"
-        self.outputLabel.text = tasks_str
+        print(tasks_str)
 
 class ShowPlants(Screen):
     plantsGrid = ObjectProperty(None)
