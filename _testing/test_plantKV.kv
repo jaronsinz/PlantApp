@@ -1,5 +1,11 @@
 #:kivy 2.3.0
 
+#color-code:
+#   green: #78AA6E
+#   brown: #CC957C
+#   purple: #726FAB
+#   dark_green: #243321
+
 WindowManager:
     id: WM
     AddPlant:
@@ -56,22 +62,33 @@ WindowManager:
                 id: plantsGrid
                 cols: 1
                 size_hint: (1, 1)
+                spacing: self.height*0.01
                 padding: [showPlantsMainGrid.width*0.1, 0]
+                canvas.before:
+                    Color:
+                        rgb: kivy.utils.get_color_from_hex("#243321")
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
 
         MenuButtons:
             id: mButtonsPlants
 
 <SPRow>:
     cols: 2
+    spacing: self.width*0.01
 
 <SPLabel>:
     disabled: True
+    disabled_color: 255,255,255,1
+    background_disabled_normal: ""
     halign: "center"
     size_hint: (0.7, 1)
-    background_color: kivy.utils.get_color_from_hex("#E69F65")
+    background_color: kivy.utils.get_color_from_hex("#78AA6E")
 
 <SPRmvButton>:
     size_hint: (0.3, 1)
+    background_color: kivy.utils.get_color_from_hex("#CC957C")
     Image:
         source: "data/img/icons/cross.png"
         center_x: self.parent.center_x
@@ -80,18 +97,38 @@ WindowManager:
 
 <ShowTasks>:
     name: "Tasks"
-    outputLabel: output
+    tasksGrid: tasksGrid
 
     GridLayout:
         id: showTasksMainGrid
         cols: 1
 
-        Label:
-            id: output
-            text: ""
+        GridLayout:
+            id: tasksGrid
+            cols: 1
+            size_hint: (1,1)
+            spacing: self.height*0.01
+            padding: [showTasksMainGrid.width*0.1, 0]
+            canvas.before:
+                Color:
+                    rgb: kivy.utils.get_color_from_hex("#243321")
+                Rectangle:
+                    size: self.size
+                    pos: self.pos 
         
         MenuButtons:
             id: mButtonsTasks
+
+<STRow>:
+    cols: 2
+    spacing: self.width*0.01
+
+<STLabel>:
+    disabled: True
+    disabled_color: 255,255,255,1
+    background_disabled_normal: ""
+    halign: "center"
+    background_color: kivy.utils.get_color_from_hex("#78AA6E")
 
 <MenuButtons>:
     size_hint: (1, 0.2)
@@ -100,7 +137,7 @@ WindowManager:
     padding: self.width*0.01
     canvas.before:
         Color:
-            rgb: kivy.utils.get_color_from_hex('#709170')
+            rgb: kivy.utils.get_color_from_hex('#243321')
         Rectangle:
             size: self.size
             pos: self.pos
@@ -133,7 +170,7 @@ WindowManager:
             text: "Add Plant"
 
 <MenuButton>:
-    background_color: kivy.utils.get_color_from_hex("#E69F65")
+    background_color: kivy.utils.get_color_from_hex("#CC957C")
 
 <MenuBtnImage>:
     center_x: self.parent.center_x
