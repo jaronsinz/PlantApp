@@ -90,20 +90,27 @@ class MenuBtnImage(Image):
     
 
 class AddPlant(Screen):
-    nameTextInput = ObjectProperty(None)
-    heightTextInput = ObjectProperty(None)
-    lTWTextInput = ObjectProperty(None)
-    plantInput = ObjectProperty(None)
+    #nameTextInput = ObjectProperty()
+    #heightTextInput = ObjectProperty(None)
+    #lTWTextInput = ObjectProperty(None)
+    #plantInput = ObjectProperty(None)
 
-    def addNewPlant(self):
-        name = self.nameTextInput.text
-        height = self.heightTextInput.text
-        currentDate = datetime.today()
-        lastTimeWatered = currentDate - timedelta(days=int(self.lTWTextInput.text))
+    #name = root.ids.name.text
+    #height = heightTextInput.text
+    currentDate = datetime.today()
+    #lastTimeWatered = currentDate - timedelta(days=int(lTWTextInput.text))
+    
+    def getParams():
+        return AddPlant.ids.name, AddPlant.ids.height, AddPlant.ids.lTW
+    
+class APSubmitBtn(Button):
+    def addNewPlant(*args):
+        name, height, lastTimeWatered = AddPlant.getParams()
 
         p1 = Plant(uuid.uuid1(), name, height, lastTimeWatered)
         myPlants.append(p1)
-        self.outputLabel.text = f"{p1.name} was added to ur plants"
+        print(f"{p1.name} was added to ur plants")
+        #self.outputLabel.text = f"{p1.name} was added to ur plants"
         savePlantsToJson() #unnötige Schreiblast, kann beschleunigt werden
 
 class ShowTasks(Screen):

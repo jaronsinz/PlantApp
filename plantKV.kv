@@ -14,10 +14,10 @@ WindowManager:
 
 <AddPlant>:
     name: "AddPlant"
-    plantInput: plantInput
-    nameTextInput: name
-    lTWTextInput: lTW
-    heightTextInput: height
+    #plantInput: plantInput
+    #nameTextInput: name
+    #lTWTextInput: lTW
+    #heightTextInput: height
     
     GridLayout:
         id: addPlantMainGrid
@@ -25,6 +25,7 @@ WindowManager:
 
         GridLayout:
             id: plantInput
+            size_hint: (1,0.7)
             cols: 2
 
             Label:
@@ -32,18 +33,26 @@ WindowManager:
             TextInput:
                 id: name
                 multiline: False
+                text: "Put name"
             
             Label:
                 text: "Height: "
             TextInput:
                 id: height
                 multiline: False
+                text: "Test"
 
             Label:
                 text: "last time watered (days ago): "
             TextInput:
                 id: lTW
                 multiline: False
+
+        APSubmitBtn:
+            id: addPlant
+            size_hint: (1,0.1)
+            text: "Submit"
+            on_release: self.addNewPlant()
     
         MenuButtons:
             id: mButtonsAddPlant
