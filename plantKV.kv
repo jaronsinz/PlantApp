@@ -14,49 +14,51 @@ WindowManager:
 
 <AddPlant>:
     name: "AddPlant"
-    #plantInput: plantInput
-    #nameTextInput: name
-    #lTWTextInput: lTW
-    #heightTextInput: height
+    plantInput: plantInput
+    nameTextInput: name
+    lTWTextInput: lTW
+    heightTextInput: height
     
     GridLayout:
         id: addPlantMainGrid
         cols: 1
 
         GridLayout:
-            id: plantInput
-            size_hint: (1,0.7)
-            cols: 2
-
-            Label:
-                text: "Name: "
-            TextInput:
-                id: name
-                multiline: False
-                text: "Put name"
+            id: wrapper
+            cols: 1
             
-            Label:
-                text: "Height: "
-            TextInput:
-                id: height
-                multiline: False
-                text: "Test"
+            GridLayout:
+                id: plantInput
+                cols: 2
 
-            Label:
-                text: "last time watered (days ago): "
-            TextInput:
-                id: lTW
-                multiline: False
+                Label:
+                    text: "Name: "
+                TextInput:
+                    id: name
+                    multiline: False
+            
+                Label:
+                    text: "Height: "
+                TextInput:
+                    id: height
+                    multiline: False
 
-        APSubmitBtn:
-            id: addPlant
-            size_hint: (1,0.1)
-            text: "Submit"
-            on_release: self.addNewPlant()
+                Label:
+                    text: "last time watered (days ago): "
+                TextInput:
+                    id: lTW
+                    multiline: False
+        
+            Button:
+                id: addPlant
+                text: "Add new plant"
+                on_release: root.addNewPlant()
+                size_hint: (1, 0.2)
     
         MenuButtons:
             id: mButtonsAddPlant
                     
+
 <ShowPlants>:
     name: "Plants"
     plantsGrid: plantsGrid
@@ -106,6 +108,7 @@ WindowManager:
 
 <ShowTasks>:
     name: "Tasks"
+    tasksGrid: tasksGrid
 
     GridLayout:
         id: showTasksMainGrid
@@ -126,6 +129,17 @@ WindowManager:
         
         MenuButtons:
             id: mButtonsTasks
+
+<STRow>:
+    cols: 2
+    spacing: self.width*0.01
+
+<STLabel>:
+    disabled: True
+    disabled_color: 255,255,255,1
+    background_disabled_normal: ""
+    halign: "center"
+    background_color: kivy.utils.get_color_from_hex("#78AA6E")
 
 <MenuButtons>:
     size_hint: (1, 0.2)

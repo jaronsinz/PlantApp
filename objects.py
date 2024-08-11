@@ -6,11 +6,12 @@ class Plant:
     height = 0
     lastTimeWatered = None
 
-    def __init__(self, id, name, height, lastTimeWatered):
+    def __init__(self, id, name, height, lastTimeWatered, wateringCycleDays):
         self.id = id
         self.name = name
         self.height = height
         self.lastTimeWatered = lastTimeWatered
+        self.wateringCycleDays = wateringCycleDays
 
 class Task:
     dueTime: None

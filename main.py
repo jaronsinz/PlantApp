@@ -21,7 +21,6 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 myPlants = []
 myTasks = []
 jsonFilePath = "data/plants.json"
-daysBetweenWatering = 7
 
 #reading and writing the data to a json file to save it between sessions
 
@@ -31,7 +30,7 @@ def readPlantsFromJson():
         plantsDict = json.load(openfile)
         if plantsDict:
             for plantDict in plantsDict.values():
-                p1 = Plant(uuid.UUID(plantDict["id"]), plantDict["name"], plantDict["height"], datetime.strptime(plantDict["lastTimeWatered"], '%Y-%m-%dT%H:%M:%S.%f'))
+                p1 = Plant(uuid.UUID(plantDict["id"]), plantDict["name"], plantDict["height"], datetime.strptime(plantDict["lastTimeWatered"], '%Y-%m-%dT%H:%M:%S.%f'), plantDict["wateringCycleDays"])
                 myPlants.append(p1)
 
 def json_serial(obj):
@@ -46,7 +45,8 @@ def savePlantsToJson():
             "id" : str(plant.id),
             "name" : plant.name,
             "height" : plant.height,
-            "lastTimeWatered" : plant.lastTimeWatered
+            "lastTimeWatered" : plant.lastTimeWatered,
+            "wateringCycleDays" : plant.wateringCycleDays
         }
         plantsDict.update({f"Plant {plantNumber}":plantDict})
 
@@ -60,9 +60,10 @@ def calculateTasks(currentDate):
     myTasks.clear()
     for plant in myPlants:
         daysSinceWatering = currentDate - plant.lastTimeWatered
-        if(daysSinceWatering > timedelta(days=daysBetweenWatering)):
-            dueTime = currentDate - (daysSinceWatering - timedelta(days=7))
-            t1 = Task(dueTime, plant)
+        overdueTime = daysSinceWatering - timedelta(days=plant.wateringCycleDays)
+
+        if(overdueTime > timedelta(days=0)): 
+            t1 = Task(overdueTime, plant)
             myTasks.append(t1)
 
 #needs to be modified for GUI
@@ -90,34 +91,64 @@ class MenuBtnImage(Image):
     
 
 class AddPlant(Screen):
-    nameTextInput = ObjectProperty(None)
-    heightTextInput = ObjectProperty(None)
-    lTWTextInput = ObjectProperty(None)
-    plantInput = ObjectProperty(None)
+    #nameTextInput = ObjectProperty()
+    #heightTextInput = ObjectProperty(None)
+    #lTWTextInput = ObjectProperty(None)
+    #plantInput = ObjectProperty(None)
 
     def addNewPlant(self):
+        
+        def calcWateringCycleDays():
+            return 7
+        
         name = self.nameTextInput.text
         height = self.heightTextInput.text
         currentDate = datetime.today()
         lastTimeWatered = currentDate - timedelta(days=int(self.lTWTextInput.text))
+        wateringCycleDays = calcWateringCycleDays()
 
-        p1 = Plant(uuid.uuid1(), name, height, lastTimeWatered)
+        p1 = Plant(uuid.uuid1(), name, height, lastTimeWatered, wateringCycleDays)
         myPlants.append(p1)
-        self.outputLabel.text = f"{p1.name} was added to ur plants"
+
         savePlantsToJson() #unnötige Schreiblast, kann beschleunigt werden
 
 class ShowTasks(Screen):
     buttons = ObjectProperty(None)
+    tasksGrid = ObjectProperty(None)
 
     def on_enter(self):
         self.showTasks()
 
     def showTasks(self):
         calculateTasks(datetime.today())
-        tasks_str = ""
+        self.tasksGrid.clear_widgets()
+        self.tasksGrid.rows = len(myTasks)
+
         for task in myTasks:
-            tasks_str += f"{task.plant.name} muss gegossen werden! Fällig: {task.dueTime.date()}\n"
-        print(tasks_str)
+            taskRow = STRow()
+
+            taskLabelPlantName = STLabel(text=task.plant.name, size_hint= (0.5, 1))
+            taskLabelDueTime = STLabel(text=self.calcWateringInstant(task.overdueTime), size_hint= (0.5, 1))
+
+            taskRow.add_widget(taskLabelPlantName)
+            taskRow.add_widget(taskLabelDueTime)
+
+            self.tasksGrid.add_widget(taskRow)
+
+    def calcWateringInstant(self, overdueTime):
+        if(overdueTime.days < 2):
+            if(overdueTime.days < 1):
+                return "Water Today!"
+            else:
+                return "Seit 1 Tag überfällig!"
+        else:
+            return f"Seit {overdueTime.days} Tagen  überfällig!"
+
+class STRow(GridLayout):
+    pass
+
+class STLabel(Button):
+    pass
 
 class ShowPlants(Screen):
     plantsGrid = ObjectProperty(None)

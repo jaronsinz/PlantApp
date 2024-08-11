@@ -5,19 +5,21 @@ class Plant:
     name = ""
     height = 0
     lastTimeWatered = None
+    wateringCycleDays = 0
 
-    def __init__(self, id, name, height, lastTimeWatered):
+    def __init__(self, id, name, height, lastTimeWatered, wateringCycleDays):
         self.id = id
         self.name = name
         self.height = height
         self.lastTimeWatered = lastTimeWatered
+        self.wateringCycleDays = wateringCycleDays
 
 class Task:
-    dueTime: None
+    overdueTime: None
     plant: None
 
-    def __init__(self, dueTime, plant):
-        self.dueTime = dueTime
+    def __init__(self, overdueTime, plant):
+        self.overdueTime = overdueTime
         self.plant = plant
 
 class User:
